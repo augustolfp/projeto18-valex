@@ -14,10 +14,23 @@ export async function createCard(companyApiKey: string, employeeId: number, card
 
     const employeeData = await employeeRepository.findById(employeeId);
 
+    function generateCardHolderName(employeeData: any){
+        const splitName = employeeData.fullName.split(" ");
+        let cardHolderName = "";
+        cardHolderName += splitName[0].toUpperCase() + " ";
+        for(let i=1;i<splitName.length-1;i++) {
+            if(splitName[i].length>=3) {
+                cardHolderName += splitName[i][0].toUpperCase() + " ";
+            }
+        }
+        cardHolderName += splitName[splitName.length -1].toUpperCase();
+        return cardHolderName;
+    }
+
     const newCard = {
         employeeId: employeeId,
         number: faker.finance.creditCardNumber(),
-        cardholderName: employeeData.fullName,
+        cardholderName: generateCardHolderName(employeeData),
         securityCode: encryptedCVV,
         expirationDate: dayjs().add(5, 'years').format('MM/YY'),
         password: "ImplementLater",
