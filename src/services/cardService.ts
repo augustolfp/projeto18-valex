@@ -3,6 +3,7 @@ import * as employeeRepository from "../repositories/employeeRepository";
 import { faker } from "@faker-js/faker";
 import Cryptr from "cryptr";
 import dotenv from "dotenv";
+import dayjs from "dayjs";
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ export async function createCard(companyApiKey: string, employeeId: number, card
         number: faker.finance.creditCardNumber(),
         cardholderName: employeeData.fullName,
         securityCode: encryptedCVV,
-        expirationDate: "05/35",
+        expirationDate: dayjs().add(5, 'years').format('MM/YY'),
         password: "ImplementLater",
         isVirtual: false,
         isBlocked: false,
