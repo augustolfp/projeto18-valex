@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 
 dotenv.config();
 
-export async function createCard(companyApiKey: string, employeeId: number, cardType: cardRepository.TransactionTypes ) {
+export async function createCard(employeeId: number, cardType: cardRepository.TransactionTypes ) {
 
     const cryptr = new Cryptr(process.env.CRYPTR_KEY!);
     const encryptedCVV: string = cryptr.encrypt(faker.finance.creditCardCVV());
@@ -33,7 +33,6 @@ export async function createCard(companyApiKey: string, employeeId: number, card
         cardholderName: generateCardHolderName(employeeData),
         securityCode: encryptedCVV,
         expirationDate: dayjs().add(5, 'years').format('MM/YY'),
-        password: "ImplementLater",
         isVirtual: false,
         isBlocked: false,
         type: cardType
