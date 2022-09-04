@@ -25,6 +25,20 @@ export async function activateCard(cardNumber: string, CVV: string, cardholderNa
         return dayjs().isAfter(`${year}-${month}-01`, 'month');
     }
 
+    function isValidCVV(userReceivedCVV: string, encryptedCVVFromDB: string): boolean {
+        const cryptr = new Cryptr(process.env.CRYPTR_KEY!);
+        const decryptedCVV: string = cryptr.decrypt(encryptedCVVFromDB);
+
+        if(userReceivedCVV === decryptedCVV) {
+            return true;
+        }
+        return false;
+    } 
+
+    if(!isValidCVV(CVV, cardToActivate.securityCode)) {
+        throw {type: "error_invalid_CVV", message: "Código CVC inválido!"};
+    }
+
     if(isCardExpired(expirationDate)) {
         throw {type: "error_expired_card", message: "Esse cartão já expirou!"};
     }
