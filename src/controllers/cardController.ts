@@ -8,9 +8,18 @@ export async function createCard(req: Request, res: Response) {
 
     try{
         const result = await cardServices.createCard(employeeId, cardType);
-        return res.status(204).send(result);
+        return res.status(201).send(result);
     }
-    catch(error) {
-        return res.sendStatus(420);
+    catch(error: any) {
+        console.log(error);
+        if(error.type === "error_user_nonexistent") {
+            return res.status(404).send(error.message);
+        }
+
+        if(error.type === "error_database") {
+            return res.status(500).send(error);
+        }
+
+        return res.sendStatus(500);
     }
 }

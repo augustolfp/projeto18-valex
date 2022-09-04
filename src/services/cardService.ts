@@ -14,6 +14,10 @@ export async function createCard(employeeId: number, cardType: cardRepository.Tr
 
     const employeeData = await employeeRepository.findById(employeeId);
 
+    if(employeeData === undefined) {
+        throw {type: "error_user_nonexistent", message: "Funcionário não encontrado"};
+    }
+
     function generateCardHolderName(employeeData: any){
         const splitName = employeeData.fullName.split(" ");
         let cardHolderName = "";
@@ -26,6 +30,8 @@ export async function createCard(employeeId: number, cardType: cardRepository.Tr
         cardHolderName += splitName[splitName.length -1].toUpperCase();
         return cardHolderName;
     }
+
+    
 
     const newCard = {
         employeeId: employeeId,
