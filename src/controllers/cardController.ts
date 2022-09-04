@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import * as cardServices from '../services/cardService';
+import * as cardCreationServices from '../services/cardCreationService';
+import * as cardActivationServices from "../services/cardActivationService";
 
 export async function createCard(req: Request, res: Response) {
     
@@ -7,7 +8,7 @@ export async function createCard(req: Request, res: Response) {
 
 
     try{
-        const result = await cardServices.createCard(employeeId, cardType);
+        const result = await cardCreationServices.createCard(employeeId, cardType);
         return res.status(201).send(result);
     }
     catch(error: any) {
@@ -24,6 +25,25 @@ export async function createCard(req: Request, res: Response) {
             return res.status(403).send(error.message);
         }
 
+        return res.sendStatus(500);
+    }
+}
+
+export async function activateCard(req: Request, res: Response) {
+
+    const { cardNumber, CVV, cardholderName, expirationDate, password } = req.body;
+
+    try{
+        const result = await cardActivationServices.activateCard(cardNumber, CVV, cardholderName, expirationDate, password);
+        return res.status(201).send(result);
+    }
+    catch(error: any) {
+        if(error.type === "error_card_not_found") {
+            return res.status(404).send(error.message);
+        }
+        if(error.type === "error_database") {
+            return res.status(500).send(error);
+        }
         return res.sendStatus(500);
     }
 }
