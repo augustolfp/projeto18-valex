@@ -2,6 +2,9 @@ import * as cardRepository from "../repositories/cardRepository";
 import Cryptr from "cryptr";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+import dayjs from "dayjs";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+dayjs.extend(isSameOrBefore);
 
 dotenv.config();
 
@@ -14,6 +17,18 @@ export async function activateCard(cardNumber: string, CVV: string, cardholderNa
     if(cardToActivate === undefined) {
         throw {type: "error_card_not_found", message: "Cartão não foi encontrado no banco de dados!"};
     }
+
+    function isCardExpired(expirationDate: string): boolean {
+        const month = expirationDate.split("/")[0];
+        const year = "20" + expirationDate.split("/")[1];
+
+        return dayjs().isAfter(`${year}-${month}-01`, 'month');
+    }
+
+    if(isCardExpired(expirationDate)) {
+        throw {type: "error_expired_card", message: "Esse cartão já expirou!"};
+    }
+
 
     try{
         await cardRepository.update(cardToActivate.id, {password: passwordHash});
