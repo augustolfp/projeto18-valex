@@ -10,7 +10,8 @@ dotenv.config();
 export async function createCard(employeeId: number, cardType: cardRepository.TransactionTypes ) {
 
     const cryptr = new Cryptr(process.env.CRYPTR_KEY!);
-    const encryptedCVV: string = cryptr.encrypt(faker.finance.creditCardCVV());
+    const CVV: string = faker.finance.creditCardCVV();
+    const encryptedCVV: string = cryptr.encrypt(CVV);
 
     const employeeData = await employeeRepository.findById(employeeId);
 
@@ -52,7 +53,14 @@ export async function createCard(employeeId: number, cardType: cardRepository.Tr
 
     try{
         await cardRepository.insert(newCard);
-        return "Cartão criado com sucesso!";
+        return {
+            message: "Cartão criado com sucesso!",
+            number: newCard.number,
+            cardholderName: newCard.cardholderName,
+            securityCode: CVV,
+            expirationDate: newCard.expirationDate,
+            type: newCard.type
+        };
     }
     catch(error){
         throw {type: "error_database", message: error};
