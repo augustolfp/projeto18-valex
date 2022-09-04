@@ -20,6 +20,10 @@ export async function createCard(req: Request, res: Response) {
             return res.status(500).send(error);
         }
 
+        if(error.type === "error_user_have_similar_card") {
+            return res.status(403).send(error.message);
+        }
+
         return res.sendStatus(500);
     }
 }

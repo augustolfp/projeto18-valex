@@ -18,6 +18,12 @@ export async function createCard(employeeId: number, cardType: cardRepository.Tr
         throw {type: "error_user_nonexistent", message: "Funcionário não encontrado"};
     }
 
+    const searchSimilarCard = await cardRepository.findByTypeAndEmployeeId(cardType, employeeId);
+
+    if(searchSimilarCard !== undefined) {
+        throw {type: "error_user_have_similar_card", message: "Usuário já possui um cartão do tipo especificado!"};
+    }
+
     function generateCardHolderName(employeeData: any){
         const splitName = employeeData.fullName.split(" ");
         let cardHolderName = "";
