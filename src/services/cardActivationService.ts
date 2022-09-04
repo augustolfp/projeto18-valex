@@ -29,6 +29,9 @@ export async function activateCard(cardNumber: string, CVV: string, cardholderNa
         throw {type: "error_expired_card", message: "Esse cartão já expirou!"};
     }
 
+    if(cardToActivate.password) {
+        throw {type: "error_card_already_active", message: "Esse cartão já foi ativado!"};
+    }
 
     try{
         await cardRepository.update(cardToActivate.id, {password: passwordHash});

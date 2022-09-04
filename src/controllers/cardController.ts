@@ -47,6 +47,9 @@ export async function activateCard(req: Request, res: Response) {
         if(error.type === "error_expired_card") {
             return res.status(403).send(error.message);
         }
+        if(error.type === "error_card_already_active") {
+            return res.status(403).send(error.message);
+        }
         return res.sendStatus(500);
     }
 }
