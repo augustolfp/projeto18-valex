@@ -72,6 +72,15 @@ export async function blockCard(req: Request, res: Response) {
         if(error.type === "error_database") {
             return res.status(500).send(error.message);
         }
+        if(error.type === "error_expired_card") {
+            return res.status(403).send(error.message);
+        }
+        if(error.type === "error_already_blocked") {
+            return res.status(403).send(error.message);
+        }
+        if(error.type === "error_wrong_password") {
+            return res.status(401).send(error.message);
+        }
         return res.sendStatus(500);
     }
 }

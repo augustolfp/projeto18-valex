@@ -3,8 +3,6 @@ import Cryptr from "cryptr";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import dayjs from "dayjs";
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-dayjs.extend(isSameOrBefore);
 
 dotenv.config();
 
