@@ -15,7 +15,7 @@ export async function createCard(req: Request, res: Response) {
         return res.status(201).send(result);
     }
     catch(error: any) {
-        console.log(error);
+        
         if(error.type === "error_user_nonexistent") {
             return res.status(404).send(error.message);
         }

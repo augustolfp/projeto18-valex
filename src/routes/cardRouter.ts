@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as cardController from "../controllers/cardController";
+import * as purchaseController from "../controllers/purchaseController";
 import * as apiKeyVerifierMW from "../middlewares/apiKeyVerifierMW";
 import * as cardCreationCheckMW from "../middlewares/cardCreationCheckMW";
 import * as rechargeCardCheckMW from "../middlewares/rechargeCardCheckMW";
@@ -12,5 +13,6 @@ cardRouter.post('/block-card', cardController.blockCard);
 cardRouter.post('/unblock-card', cardController.unblockCard);
 cardRouter.get('/card-stats', cardController.cardStats);
 cardRouter.post('/recharge-card', apiKeyVerifierMW.verifyCompanyApiKey, rechargeCardCheckMW.verifyAmount, cardController.rechargeCard);
+cardRouter.post('/purchase', purchaseController.insertPurchase);
 
 export default cardRouter;
