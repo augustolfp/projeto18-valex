@@ -7,5 +7,6 @@ const cardRouter = Router();
 
 cardRouter.post('/create-card', apiKeyVerifierMW.verifyCompanyApiKey, cardCreationCheckMW.verifyCardCreationBody, cardController.createCard);
 cardRouter.post('/activate-card', cardController.activateCard);
+cardRouter.post('/block-card', cardController.blockCard);
 
 export default cardRouter;
