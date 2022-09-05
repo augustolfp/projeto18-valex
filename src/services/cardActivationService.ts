@@ -1,4 +1,5 @@
 import * as cardRepository from "../repositories/cardRepository";
+import * as cardSchemas from "../schemas/cardSchemas";
 import Cryptr from "cryptr";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
@@ -7,6 +8,12 @@ import dayjs from "dayjs";
 dotenv.config();
 
 export async function activateCard(cardNumber: string, CVV: string, cardholderName: string, expirationDate: string, password: string) {
+
+    const passwordValidation = cardSchemas.cardPasswordSchema.validate({password});
+
+    if(passwordValidation.error) {
+        throw {type: "error_invalid_password", message: "Formato de senha inválido!"};
+    }
 
     const passwordHash = bcrypt.hashSync(password, 10);
 

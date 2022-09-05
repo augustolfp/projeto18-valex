@@ -41,6 +41,9 @@ export async function activateCard(req: Request, res: Response) {
         return res.status(201).send(result);
     }
     catch(error: any) {
+        if(error.type === "error_invalid_password") {
+            return res.status(403).send(error.message);
+        }
         if(error.type === "error_card_not_found") {
             return res.status(404).send(error.message);
         }
