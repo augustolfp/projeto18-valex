@@ -13,12 +13,12 @@ export async function makePurchase(cardId: number, cardPassword: string, busines
         throw {type: "error_business_not_found", message: "Estabelecimento não encontrado!"};
     }
 
-    if(checkBusiness.type !== checkCard.type) {
-        throw {type: "error_incompatible_types", message: "O estabelecimento e o cartão são de tipos diferentes!"};
-    }
-
     if(checkCard === undefined) {
         throw {type: "error_card_not_found", message: "Cartão não foi encontrado no banco de dados!"};
+    }
+
+    if(checkBusiness.type !== checkCard.type) {
+        throw {type: "error_incompatible_types", message: "O estabelecimento e o cartão são de tipos diferentes!"};
     }
 
     if(!checkCard.password) {
