@@ -9,5 +9,6 @@ cardRouter.post('/create-card', apiKeyVerifierMW.verifyCompanyApiKey, cardCreati
 cardRouter.post('/activate-card', cardController.activateCard);
 cardRouter.post('/block-card', cardController.blockCard);
 cardRouter.post('/unblock-card', cardController.unblockCard);
+cardRouter.get('/card-stats', cardController.cardStats);
 
 export default cardRouter;

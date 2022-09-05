@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import * as cardCreationServices from '../services/cardCreationService';
 import * as cardActivationServices from "../services/cardActivationService";
 import * as cardBlockServices from "../services/cardBlockServices";
+import * as cardStatsService from "../services/cardStatsService";
 
 export async function createCard(req: Request, res: Response) {
     
@@ -86,7 +87,7 @@ export async function blockCard(req: Request, res: Response) {
 }
 
 export async function unblockCard(req: Request, res: Response) {
-    const { id, password} = req.body;
+    const {id, password} = req.body;
 
     try{
         const result = await cardBlockServices.unblockCard(id, password);
@@ -110,4 +111,8 @@ export async function unblockCard(req: Request, res: Response) {
         }
         return res.sendStatus(500);
     }
+}
+
+export async function cardStats(req: Request, res: Response) {
+    const {cardId} = req.body;
 }
