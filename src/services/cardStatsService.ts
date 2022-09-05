@@ -12,8 +12,13 @@ export async function getCardStats(cardId: number) {
 
     const getTransactions = await paymentRepository.findByCardId(cardId);
     const getRecharges = await rechargeRepository.findByCardId(cardId);
+    const rechargeSum = await rechargeRepository.getRechargeSumById(cardId);
+    const paymentSum = await paymentRepository.getPaymentSumById(cardId);
+    const balance = rechargeSum - paymentSum;
+
 
     return {
+        balance: balance,
         transactions: getTransactions,
         recharges: getRecharges
     }
