@@ -115,4 +115,15 @@ export async function unblockCard(req: Request, res: Response) {
 
 export async function cardStats(req: Request, res: Response) {
     const {cardId} = req.body;
+
+    try{
+        const result = await cardStatsService.getCardStats(cardId);
+        res.status(200).send(result);
+    }
+    catch(error: any) {
+        if(error.type === "error_card_not_found") {
+            return res.status(404).send(error.message);
+        }
+        return res.sendStatus(500);
+    }
 }
