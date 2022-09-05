@@ -10,5 +10,6 @@ cardRouter.post('/activate-card', cardController.activateCard);
 cardRouter.post('/block-card', cardController.blockCard);
 cardRouter.post('/unblock-card', cardController.unblockCard);
 cardRouter.get('/card-stats', cardController.cardStats);
+cardRouter.post('/recharge-card', apiKeyVerifierMW.verifyCompanyApiKey, cardController.rechargeCard);
 
 export default cardRouter;

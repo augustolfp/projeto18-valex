@@ -3,6 +3,7 @@ import * as cardCreationServices from '../services/cardCreationService';
 import * as cardActivationServices from "../services/cardActivationService";
 import * as cardBlockServices from "../services/cardBlockServices";
 import * as cardStatsService from "../services/cardStatsService";
+import * as cardRechargeService from "../services/cardRechargeService";
 
 export async function createCard(req: Request, res: Response) {
     
@@ -64,7 +65,7 @@ export async function blockCard(req: Request, res: Response) {
 
     try{
         const result = await cardBlockServices.blockCard(id, password);
-        res.status(201).send(result);
+        return res.status(201).send(result);
     }
     catch(error: any) {
         if(error.type === "error_card_not_found") {
@@ -118,11 +119,26 @@ export async function cardStats(req: Request, res: Response) {
 
     try{
         const result = await cardStatsService.getCardStats(cardId);
-        res.status(200).send(result);
+        return res.status(200).send(result);
     }
     catch(error: any) {
         if(error.type === "error_card_not_found") {
             return res.status(404).send(error.message);
+        }
+        return res.sendStatus(500);
+    }
+}
+
+export async function rechargeCard(req: Request, res: Response) {
+    const {cardId, amount} = req.body;
+
+    try{
+        const result = await cardRechargeService.rechargeCard(cardId, amount);
+        return res.status(201).send(result);
+    }
+    catch(error: any) {
+        if(error.type === "error_database") {
+            return res.status(500).send(error.message);
         }
         return res.sendStatus(500);
     }
