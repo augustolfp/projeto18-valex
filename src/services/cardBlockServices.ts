@@ -10,6 +10,10 @@ export async function blockCard(cardId: number, cardPassword: string) {
         throw {type: "error_card_not_found", message: "Cartão não foi encontrado no banco de dados!"};
     }
 
+    if(cardToBlock.password === null) {
+        throw {type: "error_card_not_active", message: "Cartão não está ativo"};
+    }
+
     if(!bcrypt.compareSync(cardPassword, cardToBlock.password!)) {
         throw {type: "error_wrong_password", message: "Senha incorreta!"};
     }
@@ -41,6 +45,10 @@ export async function unblockCard(cardId: number, cardPassword: string) {
         throw {type: "error_card_not_found", message: "Cartão não foi encontrado no banco de dados!"};
     }
     
+    if(cardToUnblock.password === null) {
+        throw {type: "error_card_not_active", message: "Cartão não está ativo"};
+    }
+
     if(!bcrypt.compareSync(cardPassword, cardToUnblock.password!)) {
         throw {type: "error_wrong_password", message: "Senha incorreta!"};
     }
