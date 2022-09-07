@@ -52,12 +52,6 @@ export async function activateCard(cardNumber: string, CVV: string, cardholderNa
         throw {type: "error_card_already_active", message: "Esse cartão já foi ativado!"};
     }
 
-    try{
-        await cardRepository.update(cardToActivate.id, {password: passwordHash});
-        return "Cartão ativado com sucesso!";
-    }
-    catch(error){
-        throw {type: "error_database", message: error};
-    }
-
+    await cardRepository.update(cardToActivate.id, {password: passwordHash});
+    return "Cartão ativado com sucesso!";
 }

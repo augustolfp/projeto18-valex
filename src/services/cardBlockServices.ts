@@ -29,14 +29,8 @@ export async function blockCard(cardId: number, cardPassword: string) {
         throw {type: "error_already_blocked", message: "O cartão já está bloqueado!"};
     }
 
-
-    try{
-        await cardRepository.update(cardId, {isBlocked: true});
-        return "Cartão bloqueado com sucesso!";
-    }
-    catch(error) {
-        throw {type: "error_database", message: error};
-    }
+    await cardRepository.update(cardId, {isBlocked: true});
+    return "Cartão bloqueado com sucesso!";
 }
 
 export async function unblockCard(cardId: number, cardPassword: string) {
@@ -66,12 +60,7 @@ export async function unblockCard(cardId: number, cardPassword: string) {
         throw {type: "error_already_unblocked", message: "O cartão já está desbloqueado!"};
     }
 
+    await cardRepository.update(cardId, {isBlocked: false});
+    return "Cartão desbloqueado com sucesso!";
 
-    try{
-        await cardRepository.update(cardId, {isBlocked: false});
-        return "Cartão desbloqueado com sucesso!";
-    }
-    catch(error) {
-        throw {type: "error_database", message: error};
-    }
 }

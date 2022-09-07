@@ -51,18 +51,13 @@ export async function createCard(employeeId: number, cardType: cardRepository.Tr
         type: cardType
     }
 
-    try{
-        await cardRepository.insert(newCard);
-        return {
-            message: "Cartão criado com sucesso!",
-            number: newCard.number,
-            cardholderName: newCard.cardholderName,
-            securityCode: CVV,
-            expirationDate: newCard.expirationDate,
-            type: newCard.type
-        };
-    }
-    catch(error){
-        throw {type: "error_database", message: error};
-    }
+    await cardRepository.insert(newCard);
+    return {
+        message: "Cartão criado com sucesso!",
+        number: newCard.number,
+        cardholderName: newCard.cardholderName,
+        securityCode: CVV,
+        expirationDate: newCard.expirationDate,
+        type: newCard.type
+    };
 }

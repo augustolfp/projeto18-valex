@@ -25,11 +25,6 @@ export async function rechargeCard(cardId: number, amount: number) {
         throw {type: "error_expired_card", message: "Esse cartão já expirou!"};
     }
 
-    try{
-        await rechargeRepository.insert({cardId, amount});
-        return "Cartão recarregado com sucesso!";
-    }
-    catch(error) {
-        throw {type: "error_database", message: error};
-    }
+    await rechargeRepository.insert({cardId, amount});
+    return "Cartão recarregado com sucesso!";
 }

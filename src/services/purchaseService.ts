@@ -44,11 +44,6 @@ export async function makePurchase(cardId: number, cardPassword: string, busines
         throw {type: "error_wrong_password", message: "Senha incorreta!"};
     }
 
-    try{
-        await paymentRepository.insert({cardId, businessId, amount});
-        return "Pagamento registrado com sucesso!";
-    }
-    catch(error) {
-        throw {type: "error_database", message: error};
-    }
+    await paymentRepository.insert({cardId, businessId, amount});
+    return "Pagamento registrado com sucesso!";
 }
